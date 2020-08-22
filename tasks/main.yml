@@ -25,7 +25,8 @@
     - ca-certificates
     - apt-transport-https
     - openjdk-11-jdk
-
+    - openjdk-11-jre
+    
 - name: "Add repository to 100-ubnt-unifi.list"
   apt_repository:
     repo: deb https://www.ui.com/downloads/unifi/debian stable ubiquiti
