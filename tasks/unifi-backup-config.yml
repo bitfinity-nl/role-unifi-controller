@@ -1,0 +1,23 @@
+---
+# Title: unifi-backup-config
+#
+# Author: Bitfinity-NL / L. Rutten
+# File: tasks/unifi-backup-config.yml
+#
+# Description:
+#   Backup the Unifi network autobackup files
+#   to the Ansible server.
+#
+
+- hosts: localhost
+  become: yes
+
+  vars:
+    server_cert_host : '{{ def_srv_le_cert_host }}'
+    server_cert_src  : '{{ def_srv_le_cert_src }}'
+    server_cert_dst  : '{{ def_srv_le_cert_dst }}
+
+  tasks:
+    - name: "Fetch autobackup config from the Unifi Network Controller"
+      command: "rsync ansible@{{ server_cert_host }}:{{ server_cert_src }} {{ server_cert_dst }} -vrL"
+      become: yes
