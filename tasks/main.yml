@@ -42,13 +42,11 @@
   apt:
     update_cache: yes
     upgrade: dist
-  notify:
-    - restart_unifi
     
 - name: "Install packages"
   apt:
     name: "{{ packages }}"
-    state: present
+    state: latest
   vars:
     packages:
     - unifi
