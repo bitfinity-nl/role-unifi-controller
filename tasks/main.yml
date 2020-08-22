@@ -11,6 +11,11 @@
 #   - https://help.ui.com/hc/en-us/articles/220066768-UniFi-How-to-Install-and-Update-via-APT-on-Debian-or-Ubuntu
 #   - https://help.ui.com/hc/en-us/articles/218506997-UniFi-Ports-Used
 
+- name: "Update all packages to the latest version"
+  apt:
+    update_cache: yes
+    upgrade: dist
+
 - name: "Install depencies"
   apt:
     name: "{{ packages }}"
