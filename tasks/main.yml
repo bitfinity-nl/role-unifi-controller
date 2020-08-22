@@ -13,14 +13,13 @@
 
 - name: "Update all packages to the latest version"
   apt:
-    update_cache: yes
+    update_cache: no
     upgrade: dist
 
 - name: "Install depencies"
   apt:
     name: "{{ packages }}"
     state: present
-#    update_cache: yes
   vars:
     packages:
     - ca-certificates
@@ -40,14 +39,12 @@
 
 - name: "Update all packages to the latest version"
   apt:
-    update_cache: yes
     upgrade: dist
 
 - name: "Install packages"
   apt:
     name: "{{ packages }}"
     state: present
-#    update_cache: yes
   vars:
     packages:
     - unifi
