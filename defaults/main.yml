@@ -21,4 +21,4 @@
 #
 unifi_host : '{{ ansible_hostname }}'
 unifi_path : '/var/lib/unifi/backup/'
-unifi_dest : 'files/private/backups/{{ ansible_hostname }}/unifi'
+unifi_dest : '../files/private/backups/{{ ansible_hostname }}/unifi'
