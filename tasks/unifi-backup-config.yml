@@ -9,12 +9,13 @@
 #   to the Ansible server.
 
 - name: "Ensure backup directory is present at the Ansible server "
-  file:
+  local_action:
+    module: file
     path: "{{ unifi_dest }}"
     owner: "{{ def_ansible_user }}"
     group: "{{ def_ansible_group }}"
     state: directory
-    recurse: yes
+
         
-- name: "Fetch autobackup config from the Unifi Network Controller"
-  command: "rsync ansible@{{ unifi_host }}:{{ unifi_path }} {{ unifi_dest }} -vrL"
+#- name: "Fetch autobackup config from the Unifi Network Controller"
+#  command: "rsync ansible@{{ unifi_host }}:{{ unifi_path }} {{ unifi_dest }} -vrL"
