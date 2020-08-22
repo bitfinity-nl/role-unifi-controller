@@ -16,7 +16,8 @@
     group: "{{ def_ansible_group }}"
     state: directory
     become: yes
-
+    become_user: "{{ def_ansible_user }}"
+    become_method: sudo
         
 #- name: "Fetch autobackup config from the Unifi Network Controller"
 #  command: "rsync ansible@{{ unifi_host }}:{{ unifi_path }} {{ unifi_dest }} -vrL"
