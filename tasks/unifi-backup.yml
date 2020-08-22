@@ -1,0 +1,12 @@
+---
+# Title: unifi-backup
+#
+# Author: Bitfinity-NL / L. Rutten
+# File: tasks/unifi-backup.yml
+#
+# Description:
+#   Backup the Unifi network autobackup files
+#   to the Ansible server.
+#
+
+
