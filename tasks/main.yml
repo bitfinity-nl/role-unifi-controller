@@ -1,0 +1,17 @@
+---
+# Title: UniFi Network Controller
+#
+# Author: Bitfinity-NL / L. Rutten
+# File: tasks/main.yml
+
+- name: "Backup configuration"
+  import_tasks: ubt-2004-amd64.yml
+  when:
+    - ansible_distribution_version == "20.04"
+    - ansible_architecture == "x86_64"
+    
+- name: "For OS: Ubuntu 20.04LTS, Arch: amd64"
+  import_tasks: ubt-2004-amd64.yml
+  when:
+    - ansible_distribution_version == "20.04"
+    - ansible_architecture == "x86_64"
