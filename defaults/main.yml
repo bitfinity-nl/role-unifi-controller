@@ -19,6 +19,6 @@
 # Comment:
 #   Autobackup must be configured within the Gui.
 #
-unifi_host : '{{ ansible_host }}'
+unifi_host : '{{ ansible_hostname }}'
 unifi_path : '/var/lib/unifi/backup/'
-unifi_dest : 'files/private/backups/{{ ansible_host }}/unifi'
+unifi_dest : 'files/private/backups/{{ ansible_hostname }}/unifi'
