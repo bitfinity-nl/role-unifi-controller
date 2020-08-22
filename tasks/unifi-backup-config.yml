@@ -15,6 +15,7 @@
     owner: "{{ def_ansible_user }}"
     group: "{{ def_ansible_group }}"
     state: directory
+    become: yes
 
         
 #- name: "Fetch autobackup config from the Unifi Network Controller"
