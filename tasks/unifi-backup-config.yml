@@ -21,7 +21,7 @@
   
 - name: "Change owner to {{ def_ansible_user }} on /var/lib/unifi/backup/ server: {{ ansible_hostname }}"
   file:
-    path: /var/lib/unifi/backup/
+    path: /var/lib/unifi/
     owner: "{{ def_ansible_user }}"
     group: "{{ def_ansible_group }}"
     recurse: yes
@@ -34,7 +34,7 @@
 
 - name: "Change owner to unifi on /var/lib/unifi/backup/ server: {{ ansible_hostname }}"
   file:
-    path: /var/lib/unifi/backup/
+    path: /var/lib/unifi/
     owner: unifi
     group: unifi
     recurse: yes
