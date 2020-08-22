@@ -24,8 +24,7 @@
     packages:
     - ca-certificates
     - apt-transport-https
-    - openjdk-11-jdk
-    - openjdk-11-jre
+    - openjdk-8-jre-headless
     
 - name: "Add repository to 100-ubnt-unifi.list"
   apt_repository:
