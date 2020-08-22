@@ -1,0 +1,95 @@
+---
+# Title: UniFi Network Controller
+#
+# Author: Bitfinity-NL / L. Rutten
+# File: tasks/main.yml
+#
+# Description:
+#   Role for Unifi Network Controller.
+#
+# Sources:
+#   - https://help.ui.com/hc/en-us/articles/220066768-UniFi-How-to-Install-and-Update-via-APT-on-Debian-or-Ubuntu
+#   - https://help.ui.com/hc/en-us/articles/218506997-UniFi-Ports-Used
+
+- name: "Install depencies"
+  apt:
+    name: "{{ packages }}"
+    state: present
+    update_cache: yes
+  vars:
+    packages:
+    - ca-certificates
+    - apt-transport-https
+    - openjdk-11-jdk
+
+- name: "Add repository to 100-ubnt-unifi.list"
+  apt_repository:
+    repo: deb https://www.ui.com/downloads/unifi/debian stable ubiquiti
+    state: present
+    filename: 100-ubnt-unifi.list
+
+- name: "Install trusted key into /etc/apt/trusted.gpg.d"
+  get_url:
+    url: https://dl.ui.com/unifi/unifi-repo.gpg
+    dest: /etc/apt/trusted.gpg.d/unifi-repo.gpg
+
+- name: "Update all packages to the latest version"
+  apt:
+    update_cache: yes
+    upgrade: dist
+
+- name: "Install packages"
+  apt:
+    name: "{{ packages }}"
+    state: present
+    update_cache: yes
+  vars:
+    packages:
+    - unifi
+    
+- name: "Configure UFW for SSH"
+  ufw:
+    rule: allow
+    name: OpenSSH
+    
+- name: "Configure UFW for (Local Ingress Ports) Unifi network controller"
+  ufw:
+    rule: "{{ item.rule }}"
+    port: "{{ item.port }}"
+    proto: "{{ item.proto }}"
+  with_items:
+    - { rule: 'allow', port: '3478', proto: 'udp', usage: 'Port used for STUN.' }
+    - { rule: 'allow', port: '5514', proto: 'udp', usage: 'Port used for remote syslog capture.' }
+    - { rule: 'allow', port: '8080', proto: 'tcp', usage: 'Port used for device and controller communication.' }
+    - { rule: 'allow', port: '8443', proto: 'tcp', usage: 'Port used for controller GUI/API as seen in a web browser' }
+    - { rule: 'allow', port: '8880', proto: 'tcp', usage: 'Port used for HTTP portal redirection.' }
+    - { rule: 'allow', port: '8843', proto: 'tcp', usage: 'Port used for HTTPS portal redirection.' } 
+    - { rule: 'allow', port: '6789', proto: 'tcp', usage: 'Port used for UniFi mobile speed test.' }
+    - { rule: 'allow', port: '27117', proto: 'tcp', usage: 'Port used for local-bound database communication.' }
+    - { rule: 'allow', port: '5656:5699', proto: 'udp', usage: 'Ports used by AP-EDU broadcasting.' }
+    - { rule: 'allow', port: '10001', proto: 'udp', usage: 'Port used for device discovery' }
+    - { rule: 'allow', port: '1900', proto: 'udp', usage: 'Port used for device discovery' }
+
+- name: "Configure UFW for (Ingress Ports Required for L3 Management Over the Internet) Unifi network controller, do not forget to portforward on the router/firewall"
+  ufw:
+    rule: "{{ item.rule }}"
+    port: "{{ item.port }}"
+    proto: "{{ item.proto }}"
+  with_items:
+    - { rule: 'allow', port: '3478', proto: 'udp', usage: 'Port used for STUN.' }
+    - { rule: 'allow', port: '8080', proto: 'tcp', usage: 'Port used for device and controller communication.' }
+    - { rule: 'allow', port: '8443', proto: 'tcp', usage: 'Port used for controller GUI/API as seen in a web browser.' }
+    - { rule: 'allow', port: '8880', proto: 'tcp', usage: 'Port used for HTTP portal redirection.' }
+    - { rule: 'allow', port: '8843', proto: 'tcp', usage: 'Port used for HTTPS portal redirection.' }
+    - { rule: 'allow', port: '6789', proto: 'tcp', usage: 'Port used for UniFi mobile speed test.' }
+
+- name: "Configure UFW for (Egress Ports Required for UniFi Remote Access) Unifi network controller"
+  ufw:
+    rule: "{{ item.rule }}"
+    port: "{{ item.port }}"
+    proto: "{{ item.proto }}"
+  with_items:
+    - { rule: 'allow', port: '3478', proto: 'udp', usage: 'Port used for STUN.' }
+    - { rule: 'allow', port: '443', proto: 'tcp', usage: 'Port used for Remote Access service.' }
+    - { rule: 'allow', port: '443', proto: 'udp', usage: 'Port used for Remote Access service.' }
+    - { rule: 'allow', port: '8883', proto: 'tcp', usage: 'Port used for Remote Access service.' }
