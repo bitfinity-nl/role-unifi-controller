@@ -23,6 +23,7 @@
   file:
     path: /var/lib/unifi/backup/
     owner: "{{ def_ansible_user }}"
+    group: "{{ def_ansible_group }}"
     recurse: yes
       
 - name: "Fetch autobackup config from the Unifi Network Controller"
@@ -35,4 +36,5 @@
   file:
     path: /var/lib/unifi/backup/
     owner: unifi
+    group: unifi
     recurse: yes
