@@ -13,7 +13,7 @@
 
 - name: "Update all packages to the latest version"
   apt:
-    update_cache: no
+    update_cache: yes
     upgrade: dist
 
 - name: "Install depencies"
@@ -31,6 +31,7 @@
     repo: deb https://www.ui.com/downloads/unifi/debian stable ubiquiti
     state: present
     filename: 100-ubnt-unifi.list
+    update_cache: no
 
 - name: "Install trusted key into /etc/apt/trusted.gpg.d"
   get_url:
@@ -39,6 +40,7 @@
 
 - name: "Update all packages to the latest version"
   apt:
+    update_cache: yes
     upgrade: dist
 
 - name: "Install packages"
