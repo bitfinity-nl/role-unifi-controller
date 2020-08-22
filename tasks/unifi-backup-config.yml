@@ -7,12 +7,14 @@
 # Description:
 #   Backup the Unifi network autobackup files
 #   to the Ansible server.
-#
 
-- hosts: localhost
-  become: yes
-
-  tasks:
-    - name: "Fetch autobackup config from the Unifi Network Controller"
-      command: "rsync ansible@{{ unifi_host }}:{{ unifi_path }} {{ unifi_dest }} -vrL"
-      become: yes
+- name: "Ensure backup directory is present at the Ansible server "
+  file:
+    path: "{{ unifi_dest }}"
+    owner: "{{ def_ansible_user }}"
+    group: "{{ def_ansible_group }}"
+    state: directory
+    recurse: yes
+        
+- name: "Fetch autobackup config from the Unifi Network Controller"
+  command: "rsync ansible@{{ unifi_host }}:{{ unifi_path }} {{ unifi_dest }} -vrL"
