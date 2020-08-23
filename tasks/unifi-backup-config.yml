@@ -28,7 +28,9 @@
       
 - name: "Fetch autobackup config from the Unifi Network Controller"
   local_action: command "rsync {{ def_ansible_user }}@{{ unifi_host }}:{{ unifi_path }} {{ unifi_dest }} -vrL"
+  become: yes
   become_user: "{{ def_ansible_user }}"
+  become_method: su
 
 - name: "Change owner to unifi on /var/lib/unifi/backup/ server: {{ ansible_hostname }}"
   file:
