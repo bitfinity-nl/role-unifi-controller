@@ -10,7 +10,11 @@
 # Sources:
 #   - https://help.ui.com/hc/en-us/articles/220066768-UniFi-How-to-Install-and-Update-via-APT-on-Debian-or-Ubuntu
 #   - https://help.ui.com/hc/en-us/articles/218506997-UniFi-Ports-Used
+#   - https://github.com/ansible/ansible/issues/48352
 
+- name: "apt-get commandline allows to accept the release-info change"
+  raw: apt-get update -y --allow-releaseinfo-change
+  
 - name: "Update all packages to the latest version"
   apt:
     update_cache: yes
